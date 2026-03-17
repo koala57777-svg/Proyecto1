@@ -32,6 +32,9 @@ int entrarfuncion = 0;
 
 void Validacion()
 {
+    Console.WriteLine("---Evaluar nuevo contenido---");
+    Console.WriteLine();
+    Console.WriteLine();
     //Tipo de contenido
     Console.WriteLine("Seleccione el tipo de contenido: ");
     Console.WriteLine();
@@ -157,12 +160,16 @@ void Validacion()
 
 bool ValidacionTecnica(int a)
 {
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("----Validación técnica----");
     if (Clasificacion==1 || (Clasificacion==2 && (HoraProgramada>=6 || HoraProgramada<=22)) || (Clasificacion==3 && (HoraProgramada>=22 || HoraProgramada<=5)))
     {
         if ((TipoContenido==1 && (Duracion>=60 && Duracion<=180)) || (TipoContenido == 2 && (Duracion >= 20 && Duracion <= 90)) || (TipoContenido == 3 && (Duracion >= 30 && Duracion <= 120)) || (TipoContenido == 4 && (Duracion >= 30 && Duracion <= 240)))
         {
             if (  (NivelProduccion==1 && (Clasificacion==1 || Clasificacion==2)) || ((NivelProduccion==2 || NivelProduccion==3))  )
             {
+                ContadorTotalEvaluados++;
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("Validación técnica satisfactoria");
@@ -175,11 +182,22 @@ bool ValidacionTecnica(int a)
             }
             else
             {
+                ContadorTotalEvaluados++;
+                ContadorRechazados++;
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("Validación técnica insatisfactoria");
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("Validación técnica satisfactoria");
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("No entra en ningun tipo de impacto");
+                Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("Decisión final: Rechazar");
                 Console.WriteLine();
                 Console.WriteLine("Razón: Inclumple alguna regla obligatoria");
-                ContadorRechazados++;
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.Write("Presione ENTER para continuar ");
@@ -190,11 +208,22 @@ bool ValidacionTecnica(int a)
         }
         else
         {
+            ContadorTotalEvaluados++;
+            ContadorRechazados++;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Validación técnica insatisfactoria");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Validación técnica satisfactoria");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("No entra en ningun tipo de impacto");
+            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Decisión final: Rechazar");
             Console.WriteLine();
             Console.WriteLine("Razón: Inclumple alguna regla obligatoria");
-            ContadorRechazados++;
             Console.WriteLine();
             Console.WriteLine();
             Console.Write("Presione ENTER para continuar ");
@@ -205,11 +234,22 @@ bool ValidacionTecnica(int a)
     }
     else
     {
+        ContadorTotalEvaluados++;
+        ContadorRechazados++;
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Validación técnica insatisfactoria");
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Validación técnica satisfactoria");
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("No entra en ningun tipo de impacto");
+        Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine("Decisión final: Rechazar");
         Console.WriteLine();
         Console.WriteLine("Razón: Inclumple alguna regla obligatoria");
-        ContadorRechazados++;
         Console.WriteLine();
         Console.WriteLine();
         Console.Write("Presione ENTER para continuar ");
@@ -245,6 +285,9 @@ string ImprimirTipoImpacto(int b)
 
 string ClasificacionImpacto(bool a)
 {
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("----Clasificación de impacto----");
     if (a)
     {
         if (NivelProduccion == 3 || Duracion > 120 || (HoraProgramada >= 20 && HoraProgramada <= 23))
@@ -302,9 +345,6 @@ do
     switch (opcion)
     {
         case 1:
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("---Evaluar nuevo contenido---");
             Console.WriteLine();
             Console.WriteLine();
             Validacion();
