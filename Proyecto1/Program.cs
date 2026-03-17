@@ -1,4 +1,7 @@
 ﻿//Bloque de variables globales
+using System.Globalization;
+using System.Xml;
+
 int opcion = -1;
 
 int TipoContenido = 0;
@@ -12,9 +15,16 @@ int ContadorPublicados = 0;
 int ContadorRechazados = 0;
 int ContadorEnRevision = 0;
 
+int TipoImpacto = 0;
+// 1 = Impacto Alto
+// 2 = Impacto Medio
+// 3 = Impacto Bajo
+
 int ContadorImpactoAlto = 0;
 int ContadorImpactoMedio = 0;
 int ContadorImpactoBajo = 0;
+
+string ResultadoClasificacionImpacto;
 
 bool ResultadoValidacionTecnica= false;
 int entrarfuncion = 0;
@@ -210,6 +220,58 @@ bool ValidacionTecnica(int a)
 }
 
 
+string ImprimirTipoImpacto(int b)
+{
+    if (b == 1)
+    {
+        ContadorImpactoAlto++;
+        return "Clasificación de impacto: Impacto Alto";
+    }
+    else if(b == 2)
+    {
+        ContadorImpactoMedio++;
+        return "Clasificación de impacto: Impacto Medio";
+    }
+    else if (b == 3)
+    {
+        ContadorImpactoBajo++;
+        return "Clasificación de impacto: Impacto Bajo";
+    }
+    else
+    {
+        return "No entra en ningun tipo de impacto";
+    }
+}
+
+string ClasificacionImpacto(bool a)
+{
+    if (a)
+    {
+        if (NivelProduccion == 3 || Duracion > 120 || (HoraProgramada >= 20 && HoraProgramada <= 23))
+        {
+            TipoImpacto = 1;
+            Console.WriteLine();
+            return ImprimirTipoImpacto(TipoImpacto);
+        }
+        else if (NivelProduccion == 2 || (Duracion >= 60 && Duracion <= 120))
+        {
+            TipoImpacto = 2;
+            Console.WriteLine();
+            return ImprimirTipoImpacto(TipoImpacto);
+        }
+        else if (NivelProduccion == 1 && Duracion<60)
+        {
+            TipoImpacto = 3;
+            Console.WriteLine();
+            return ImprimirTipoImpacto(TipoImpacto);
+        }
+    }
+    else
+    {
+        return ImprimirTipoImpacto(TipoImpacto);
+    }
+    return null;
+}
 
 
 do
@@ -246,13 +308,12 @@ do
             Console.WriteLine();
             Console.WriteLine();
             Validacion();
-            Console.WriteLine();
+
             ResultadoValidacionTecnica= ValidacionTecnica(entrarfuncion);
-            Console.WriteLine(ResultadoValidacionTecnica);
 
-
-
-
+            
+            ResultadoClasificacionImpacto= ClasificacionImpacto(ResultadoValidacionTecnica);
+            Console.WriteLine(ResultadoClasificacionImpacto);
 
             Console.WriteLine();
             Console.WriteLine();
