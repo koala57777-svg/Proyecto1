@@ -485,11 +485,28 @@ do
             break;
 
         case 2:
+            for (int i = 1; i <= 47; i++)
+            {
+                Console.Write("_");
+            }
+            Console.Write("Mostrar reglas del sistema");
+            for (int i = 1; i <= 47; i++)
+            {
+                Console.Write("_");
+            }
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("--- Mostrar reglas del sistema ---");
+            for (int i=1; i<=43; i++)
+            {
+                Console.Write("-");
+            }
+            Console.Write(" REGLAS OBLIGATORIAS DE EVALUACIÓN ");
+            for (int i = 1; i <= 42; i++)
+            {
+                Console.Write("-");
+            }
             Console.WriteLine();
-            Console.WriteLine("REGLAS OBLIGATORIAS DE EVALUACIÓN:");
+            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("1. Horarios permitidos según clasificación:");
             Console.WriteLine("   - Todo público: Cualquier hora");
