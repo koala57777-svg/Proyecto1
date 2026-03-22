@@ -205,11 +205,11 @@ bool ValidacionTecnica(int a)
 
     RequiereAjustes = false;
 
-    if (Clasificacion==1 || (Clasificacion==2 && (HoraProgramada>=6 || HoraProgramada<=22)) || (Clasificacion==3 && (HoraProgramada>=22 || HoraProgramada<=5)))
+    if ((NivelProduccion == 1 && (Clasificacion == 1 || Clasificacion == 2)) || ((NivelProduccion == 2 || NivelProduccion == 3)))
     {
-        if ((TipoContenido==1 && (Duracion>=60 && Duracion<=180)) || (TipoContenido == 2 && (Duracion >= 20 && Duracion <= 90)) || (TipoContenido == 3 && (Duracion >= 30 && Duracion <= 120)) || (TipoContenido == 4 && (Duracion >= 30 && Duracion <= 240)))
+        if (Clasificacion == 1 || (Clasificacion == 2 && (HoraProgramada >= 6 || HoraProgramada <= 22)) || (Clasificacion == 3 && (HoraProgramada >= 22 || HoraProgramada <= 5)))
         {
-            if (  (NivelProduccion==1 && (Clasificacion==1 || Clasificacion==2)) || ((NivelProduccion==2 || NivelProduccion==3))  )
+            if ((TipoContenido == 1 && (Duracion >= 60 && Duracion <= 180)) || (TipoContenido == 2 && (Duracion >= 20 && Duracion <= 90)) || (TipoContenido == 3 && (Duracion >= 30 && Duracion <= 120)) || (TipoContenido == 4 && (Duracion >= 30 && Duracion <= 240)))
             {
                 ContadorTotalEvaluados++;
                 Console.WriteLine();
@@ -230,7 +230,7 @@ bool ValidacionTecnica(int a)
                 ContadorRechazados++;
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine("Validación técnica insatisfactoria");
+                Console.WriteLine("Validación técnica satisfactoria (Requiere ajustar duración)");
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("Presiona cualquier tecla para continuar");
@@ -247,7 +247,7 @@ bool ValidacionTecnica(int a)
             ContadorRechazados++;
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("Validación técnica insatisfactoria");
+            Console.WriteLine("Validación técnica satisfactoria (Requiere ajustar horario)");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Presiona cualquier tecla para continuar");
@@ -342,12 +342,25 @@ string ClasificacionImpacto(bool a)
 
 int DesicionFinal(int a, bool b)
 {
-    if (b) // Si pasó la validación técnica
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("Presiona cualquier tecla para continuar");
+    Console.WriteLine();
+    Console.ReadKey();
+    Console.Clear();
+
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("---- Decisión final ----");
+    Console.WriteLine();
+    Console.WriteLine();
+    if (b) 
     {
         if (TipoImpacto == 1)
         {
             ContadorEnRevision++;
             Console.WriteLine("Decisión: Enviar a revisión");
+            Console.WriteLine();
             Console.WriteLine("Razón: Cumple reglas técnicas, pero tiene impacto Alto.");
             return 3;
         }
@@ -355,20 +368,21 @@ int DesicionFinal(int a, bool b)
         {
             ContadorPublicadosAjustes++;
             Console.WriteLine("Decisión: Publicar con ajustes");
-            Console.WriteLine("Razón: Cumple reglas técnicas base, pero requiere modificación menor (horario o duración).");
+            Console.WriteLine();
+            Console.WriteLine("Razón: Cumple reglas técnicas, pero requiere modificación menor (horario o duración).");
             return 2;
         }
         else if (TipoImpacto == 2 || TipoImpacto == 3)
         {
             ContadorPublicados++;
             Console.WriteLine("Decisión: Publicar");
+            Console.WriteLine();
             Console.WriteLine("Razón: Cumple todas las reglas técnicas y su impacto es Bajo o Medio.");
             return 1;
         }
     }
     else
     {
-        
         return 4;
     }
     return -1;
@@ -414,11 +428,13 @@ do
 
             ResultadoValidacionTecnica= ValidacionTecnica(entrarfuncion);
 
-            
-            ResultadoClasificacionImpacto= ClasificacionImpacto(ResultadoValidacionTecnica);
-            Console.WriteLine(ResultadoClasificacionImpacto);
+            if (ResultadoValidacionTecnica)
+            {
+                ResultadoClasificacionImpacto = ClasificacionImpacto(ResultadoValidacionTecnica);
+                Console.WriteLine(ResultadoClasificacionImpacto);
 
-            ResultadoDescisionFinal = DesicionFinal(TipoImpacto, ResultadoValidacionTecnica);
+                ResultadoDescisionFinal = DesicionFinal(TipoImpacto, ResultadoValidacionTecnica);
+            }
 
             Console.WriteLine();
             Console.WriteLine();
