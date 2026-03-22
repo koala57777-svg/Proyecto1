@@ -5,7 +5,7 @@ using System.Xml;
 int opcion = -1;
 string impactoPredominante = "Ninguno";
 double porcentajeAprobacion = 0;
-int totalAprobados = 0;
+double totalAprobados = 0;
 
 int TipoContenido = 0;
 int Duracion = 0;
@@ -185,7 +185,7 @@ void Validacion()
 
         if (NivelProduccion < 1 || NivelProduccion > 3)
         {
-            Console.WriteLine("\nOpción inválida. Presiona cualquier tecla para reintentar...");
+            Console.WriteLine("Opción inválida. Presiona cualquier tecla para reintentar...");
             Console.ReadKey();
         }
     } while (NivelProduccion < 1 || NivelProduccion > 3);
@@ -413,7 +413,7 @@ void MostrarEstadisticas()
     if (ContadorTotalEvaluados > 0)
     {
         totalAprobados = ContadorPublicados + ContadorPublicadosAjustes + ContadorEnRevision;
-        porcentajeAprobacion = (totalAprobados / ContadorTotalEvaluados) * 100;
+        porcentajeAprobacion = ((totalAprobados*100) / ContadorTotalEvaluados);
     }
 
     Console.WriteLine($"Total evaluados: {ContadorTotalEvaluados}");
