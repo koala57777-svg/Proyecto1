@@ -15,16 +15,11 @@ int ContadorPublicados = 0;
 int ContadorRechazados = 0;
 int ContadorEnRevision = 0;
 
-int TipoImpacto = 0;
-// 1 = Impacto Alto
-// 2 = Impacto Medio
-// 3 = Impacto Bajo
-
+int TipoImpacto = 0; // 1 = Impacto Alto, 2 = Impacto Medio, 3 = Impacto Bajo
+string ResultadoClasificacionImpacto;
 int ContadorImpactoAlto = 0;
 int ContadorImpactoMedio = 0;
 int ContadorImpactoBajo = 0;
-
-string ResultadoClasificacionImpacto;
 
 bool ResultadoValidacionTecnica= false;
 int entrarfuncion = 0;
@@ -32,126 +27,166 @@ int entrarfuncion = 0;
 
 void Validacion()
 {
-    Console.WriteLine("---Evaluar nuevo contenido---");
-    Console.WriteLine();
-    Console.WriteLine();
     //Tipo de contenido
-    Console.WriteLine("Seleccione el tipo de contenido: ");
-    Console.WriteLine();
-    Console.WriteLine("1. Película");
-    Console.WriteLine("2. Serie");
-    Console.WriteLine("3. Documental");
-    Console.WriteLine("4. Evento en vivo");
-    Console.WriteLine();
-    Console.Write("Selección: ");
-    TipoContenido=int.Parse(Console.ReadLine());
-
-    while (TipoContenido<1 || TipoContenido>4)
+    do
     {
+        Console.Clear();
+        Console.WriteLine("---Evaluar nuevo contenido---");
         Console.WriteLine();
-        Console.WriteLine("Opción inválida");
         Console.WriteLine();
-        Console.Write("Seleccione el tipo de contenido: ");
-        TipoContenido=int.Parse(Console.ReadLine());
-    }
+        Console.WriteLine("Seleccione el tipo de contenido: ");
+        Console.WriteLine();
+        Console.WriteLine("1. Película");
+        Console.WriteLine("2. Serie");
+        Console.WriteLine("3. Documental");
+        Console.WriteLine("4. Evento en vivo");
+        Console.WriteLine();
+        Console.Write("Selección: ");
+        
+        if (!int.TryParse(Console.ReadLine(), out TipoContenido))
+        {
+            TipoContenido = -1;
+            Console.WriteLine();
+        }
+        
+        if (TipoContenido < 1 || TipoContenido > 4)
+        {
+            Console.WriteLine("Opción inválida. Presiona cualquier tecla para reintentar...");
+            Console.ReadKey();
+        }
+
+    } while (TipoContenido < 1 || TipoContenido > 4);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Presiona cualquier tecla para continuar");
     Console.WriteLine();
-    Console.WriteLine();
-    Console.Write("Presione ENTER para continuar ");
-    Console.ReadLine();
-    Console.Clear();
+    Console.ReadKey();
+
 
 
     //Duración
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.Write("Ingrese la duración (minutos): ");
-    Duracion=int.Parse(Console.ReadLine());
-    while (Duracion <=0)
+    do
     {
+        Console.Clear();
+        Console.WriteLine("--- Evaluar nuevo contenido ---");
         Console.WriteLine();
-        Console.WriteLine("Duración inválida");
         Console.WriteLine();
         Console.Write("Ingrese la duración (minutos): ");
-        Duracion = int.Parse(Console.ReadLine());
-    }
+
+        if (!int.TryParse(Console.ReadLine(), out Duracion))
+        {
+            Duracion = -1;
+            Console.WriteLine();
+        }
+        
+        if (Duracion <= 0)
+        {
+            Console.WriteLine("Duración inválida. Presiona cualquier tecla para reintentar...");
+            Console.ReadKey();
+        }
+
+    } while (Duracion <= 0);
     Console.WriteLine();
     Console.WriteLine();
-    Console.Write("Presione ENTER para continuar ");
-    Console.ReadLine();
-    Console.Clear();
+    Console.WriteLine("Presiona cualquier tecla para continuar");
+    Console.WriteLine();
+    Console.ReadKey();
 
 
     //Tipo de clasificación
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine("Seleccione el tipo de clasificación: ");
-    Console.WriteLine();
-    Console.WriteLine("1. Todo público");
-    Console.WriteLine("2. +13");
-    Console.WriteLine("3. +18");
-    Console.WriteLine();
-    Console.Write("Selección: ");
-    Clasificacion = int.Parse(Console.ReadLine());
-
-    while (Clasificacion < 1 || Clasificacion > 3)
+    do
     {
+        Console.Clear();
+        Console.WriteLine("--- Evaluar nuevo contenido ---");
         Console.WriteLine();
-        Console.WriteLine("Opción inválida");
         Console.WriteLine();
-        Console.Write("Seleccione el tipo de clasificación: ");
-        Clasificacion = int.Parse(Console.ReadLine());
-    }
+        Console.WriteLine("Seleccione el tipo de clasificación: ");
+        Console.WriteLine();
+        Console.WriteLine("1. Todo público");
+        Console.WriteLine("2. +13");
+        Console.WriteLine("3. +18");
+        Console.WriteLine();
+        Console.Write("Selección: ");
+        if (!int.TryParse(Console.ReadLine(), out Clasificacion))
+        {
+            Clasificacion = -1;
+            Console.WriteLine();
+        }
+        
+        if (Clasificacion < 1 || Clasificacion > 3)
+        {
+            Console.WriteLine("Opción inválida. Presiona cualquier tecla para reintentar...");
+            Console.ReadKey();
+        }
+    } while (Clasificacion < 1 || Clasificacion > 3);
     Console.WriteLine();
     Console.WriteLine();
-    Console.Write("Presione ENTER para continuar ");
-    Console.ReadLine();
-    Console.Clear();
+    Console.WriteLine("Presiona cualquier tecla para continuar");
+    Console.WriteLine();
+    Console.ReadKey();
 
 
     //Hora programada
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.Write("Ingrese la hora programada (0-23): ");
-    HoraProgramada=int.Parse(Console.ReadLine());
-    while (HoraProgramada<0 || HoraProgramada>23)
+    do
     {
+
+        Console.Clear();
+        Console.WriteLine("--- Evaluar nuevo contenido ---");
         Console.WriteLine();
-        Console.WriteLine("Hora programada inválida");
         Console.WriteLine();
         Console.Write("Ingrese la hora programada (0-23): ");
-        HoraProgramada = int.Parse(Console.ReadLine());
-    }
+
+        if (!int.TryParse(Console.ReadLine(), out HoraProgramada))
+        {
+            HoraProgramada = -1;
+            Console.WriteLine();
+        }
+        
+        if (HoraProgramada < 0 || HoraProgramada > 23)
+        {
+            Console.WriteLine("Hora programada inválida. Presiona cualquier tecla para reintentar...");
+            Console.ReadKey();
+        }
+    } while (HoraProgramada < 0 || HoraProgramada > 23);
     Console.WriteLine();
     Console.WriteLine();
-    Console.Write("Presione ENTER para continuar ");
-    Console.ReadLine();
-    Console.Clear();
+    Console.WriteLine("Presiona cualquier tecla para continuar");
+    Console.WriteLine();
+    Console.ReadKey();
 
 
     //Nivel de proudcción
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine("Seleccione el nivel de producción: ");
-    Console.WriteLine();
-    Console.WriteLine("1. Bajo");
-    Console.WriteLine("2. Medio");
-    Console.WriteLine("3. Alto");
-    Console.WriteLine();
-    Console.Write("Selección: ");
-    NivelProduccion = int.Parse(Console.ReadLine());
-
-    while (NivelProduccion < 1 || NivelProduccion > 3)
+    do
     {
+
+
+        Console.Clear();
+        Console.WriteLine("--- Evaluar nuevo contenido ---");
         Console.WriteLine();
-        Console.WriteLine("Opción inválida");
         Console.WriteLine();
-        Console.Write("Seleccione el nivel de producción: ");
-        NivelProduccion = int.Parse(Console.ReadLine());
-    }
+        Console.WriteLine("Seleccione el nivel de producción: ");
+        Console.WriteLine();
+        Console.WriteLine("1. Bajo");
+        Console.WriteLine("2. Medio");
+        Console.WriteLine("3. Alto");
+        Console.WriteLine();
+        Console.Write("Selección: ");
+        if (!int.TryParse(Console.ReadLine(), out NivelProduccion))
+        {
+            NivelProduccion = -1;
+        }
+
+        if (NivelProduccion < 1 || NivelProduccion > 3)
+        {
+            Console.WriteLine("\nOpción inválida. Presiona cualquier tecla para reintentar...");
+            Console.ReadKey();
+        }
+    } while (NivelProduccion < 1 || NivelProduccion > 3);
     Console.WriteLine();
     Console.WriteLine();
-    Console.Write("Presione ENTER para continuar ");
-    Console.ReadLine();
+    Console.WriteLine("Presiona cualquier tecla para continuar");
+    Console.WriteLine();
+    Console.ReadKey();
     Console.Clear();
 }
 
@@ -175,8 +210,9 @@ bool ValidacionTecnica(int a)
                 Console.WriteLine("Validación técnica satisfactoria");
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.Write("Presione ENTER para continuar ");
-                Console.ReadLine();
+                Console.WriteLine("Presiona cualquier tecla para continuar");
+                Console.WriteLine();
+                Console.ReadKey();
                 Console.Clear();
                 return true;
             }
@@ -189,19 +225,9 @@ bool ValidacionTecnica(int a)
                 Console.WriteLine("Validación técnica insatisfactoria");
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine("Validación técnica satisfactoria");
+                Console.WriteLine("Presiona cualquier tecla para continuar");
                 Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("No entra en ningun tipo de impacto");
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("Decisión final: Rechazar");
-                Console.WriteLine();
-                Console.WriteLine("Razón: Inclumple alguna regla obligatoria");
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.Write("Presione ENTER para continuar ");
-                Console.ReadLine();
+                Console.ReadKey();
                 Console.Clear();
                 return false;
             }
@@ -215,19 +241,9 @@ bool ValidacionTecnica(int a)
             Console.WriteLine("Validación técnica insatisfactoria");
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("Validación técnica satisfactoria");
+            Console.WriteLine("Presiona cualquier tecla para continuar");
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("No entra en ningun tipo de impacto");
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("Decisión final: Rechazar");
-            Console.WriteLine();
-            Console.WriteLine("Razón: Inclumple alguna regla obligatoria");
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.Write("Presione ENTER para continuar ");
-            Console.ReadLine();
+            Console.ReadKey();
             Console.Clear();
             return false;
         }
@@ -241,19 +257,9 @@ bool ValidacionTecnica(int a)
         Console.WriteLine("Validación técnica insatisfactoria");
         Console.WriteLine();
         Console.WriteLine();
-        Console.WriteLine("Validación técnica satisfactoria");
+        Console.WriteLine("Presiona cualquier tecla para continuar");
         Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("No entra en ningun tipo de impacto");
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("Decisión final: Rechazar");
-        Console.WriteLine();
-        Console.WriteLine("Razón: Inclumple alguna regla obligatoria");
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.Write("Presione ENTER para continuar ");
-        Console.ReadLine();
+        Console.ReadKey();
         Console.Clear();
         return false;
     }
@@ -335,11 +341,15 @@ do
     Console.WriteLine();
     Console.WriteLine();
     Console.Write("Opción elegida: ");
-    opcion=int.Parse(Console.ReadLine());
+    if (!int.TryParse(Console.ReadLine(), out opcion))
+    {
+        opcion = -1;
+    }
     Console.WriteLine();
     Console.WriteLine();
-    Console.Write("Presione ENTER para continuar ");
-    Console.ReadLine();
+    Console.WriteLine("Presiona cualquier tecla para continuar");
+    Console.WriteLine();
+    Console.ReadKey();
     Console.Clear();
 
     switch (opcion)
@@ -347,6 +357,7 @@ do
         case 1:
             Console.WriteLine();
             Console.WriteLine();
+
             Validacion();
 
             ResultadoValidacionTecnica= ValidacionTecnica(entrarfuncion);
@@ -357,8 +368,9 @@ do
 
             Console.WriteLine();
             Console.WriteLine();
-            Console.Write("Presione ENTER para continuar ");
-            Console.ReadLine();
+            Console.WriteLine("Presiona cualquier tecla para continuar");
+            Console.WriteLine();
+            Console.ReadKey();
             Console.Clear();
             break;
 
@@ -372,8 +384,9 @@ do
 
             Console.WriteLine();
             Console.WriteLine();
-            Console.Write("Presione ENTER para continuar ");
-            Console.ReadLine();
+            Console.WriteLine("Presiona cualquier tecla para continuar");
+            Console.WriteLine();
+            Console.ReadKey();
             Console.Clear();
             break;
 
@@ -387,8 +400,9 @@ do
 
             Console.WriteLine();
             Console.WriteLine();
-            Console.Write("Presione ENTER para continuar ");
-            Console.ReadLine();
+            Console.WriteLine("Presiona cualquier tecla para continuar");
+            Console.WriteLine();
+            Console.ReadKey();
             Console.Clear();
             break;
 
@@ -402,8 +416,9 @@ do
 
             Console.WriteLine();
             Console.WriteLine();
-            Console.Write("Presione ENTER para continuar ");
-            Console.ReadLine();
+            Console.WriteLine("Presiona cualquier tecla para continuar");
+            Console.WriteLine();
+            Console.ReadKey();
             Console.Clear();
             break;
 
@@ -417,6 +432,11 @@ do
         default:
             Console.WriteLine("Opción inválida. Por favor elija una opción (1-5)");
             Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Presiona cualquier tecla para continuar");
+            Console.WriteLine();
+            Console.ReadKey();
+            Console.Clear();
             break;
     }
 }while (opcion != 5);
