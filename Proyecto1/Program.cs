@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Xml;
 
 int opcion = -1;
+string impactoPredominante = "Ninguno";
+double porcentajeAprobacion = 0;
 
 int TipoContenido = 0;
 int Duracion = 0;
@@ -227,7 +229,6 @@ bool ValidacionTecnica(int a)
             {
                 RequiereAjustes = true;
                 ContadorTotalEvaluados++;
-                ContadorRechazados++;
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("Validación técnica satisfactoria (Requiere ajustar duración)");
@@ -244,7 +245,6 @@ bool ValidacionTecnica(int a)
         {
             RequiereAjustes = true;
             ContadorTotalEvaluados++;
-            ContadorRechazados++;
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Validación técnica satisfactoria (Requiere ajustar horario)");
@@ -389,6 +389,45 @@ int DesicionFinal(int a, bool b)
 }
 
 
+
+void MostrarEstadisticas()
+{
+
+    if (ContadorImpactoAlto > 0 || ContadorImpactoMedio > 0 || ContadorImpactoBajo > 0)
+    {
+        if (ContadorImpactoAlto >= ContadorImpactoMedio && ContadorImpactoAlto >= ContadorImpactoBajo)
+        {
+            impactoPredominante = "Alto";
+        }
+        else if (ContadorImpactoMedio >= ContadorImpactoAlto && ContadorImpactoMedio >= ContadorImpactoBajo)
+        {
+            impactoPredominante = "Medio";
+        }
+        else
+        {
+            impactoPredominante = "Bajo";
+        }
+    }
+
+    if (ContadorTotalEvaluados > 0)
+    {
+        int totalAprobados = ContadorPublicados + ContadorPublicadosAjustes + ContadorEnRevision;
+        porcentajeAprobacion = (totalAprobados / ContadorTotalEvaluados) * 100;
+    }
+
+    Console.WriteLine($"Total evaluados: {ContadorTotalEvaluados}");
+    Console.WriteLine($"Publicados: {ContadorPublicados}");
+    Console.WriteLine($"Publicados con ajustes: {ContadorPublicadosAjustes}");
+    Console.WriteLine($"Rechazados: {ContadorRechazados}");
+    Console.WriteLine($"En revisión: {ContadorEnRevision}");
+    Console.WriteLine($"Impacto predominante: {impactoPredominante}");
+    Console.WriteLine($"Porcentaje de aprobación: {porcentajeAprobacion}%");
+
+}
+
+
+
+
 do
 {
     Console.WriteLine();
@@ -447,12 +486,24 @@ do
         case 2:
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("---Mostrar reglas del sistema---");
+            Console.WriteLine("--- Mostrar reglas del sistema ---");
             Console.WriteLine();
+            Console.WriteLine("REGLAS OBLIGATORIAS DE EVALUACIÓN:");
             Console.WriteLine();
-
-
+            Console.WriteLine("1. Horarios permitidos según clasificación:");
+            Console.WriteLine("   - Todo público: Cualquier hora");
+            Console.WriteLine("   - +13: Entre 6 y 22 horas");
+            Console.WriteLine("   - +18: Entre 22 y 5 horas");
             Console.WriteLine();
+            Console.WriteLine("2. Duración permitida según contenido:");
+            Console.WriteLine("   - Película: 60 - 180 minutos");
+            Console.WriteLine("   - Serie: 20 - 90 minutos");
+            Console.WriteLine("   - Documental: 30 - 120 minutos");
+            Console.WriteLine("   - Evento en vivo: 30 - 240 minutos");
+            Console.WriteLine();
+            Console.WriteLine("3. Restricciones de producción:");
+            Console.WriteLine("   - Producción Baja: Solo válida para Todo público o +13");
+            Console.WriteLine("   - Producción Media/Alta: Válida para cualquier clasificación");
             Console.WriteLine();
             Console.WriteLine("Presiona cualquier tecla para continuar");
             Console.WriteLine();
@@ -463,10 +514,10 @@ do
         case 3:
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("---Mostrar estdísticas de la sesión---");
-            Console.WriteLine();
+            Console.WriteLine("--- Mostrar estadísticas de la sesión ---");
             Console.WriteLine();
 
+            MostrarEstadisticas();
 
             Console.WriteLine();
             Console.WriteLine();
@@ -474,16 +525,26 @@ do
             Console.WriteLine();
             Console.ReadKey();
             Console.Clear();
+
             break;
 
         case 4:
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("---Estadísticas reiniciadas---");
-            Console.WriteLine();
-            Console.WriteLine();
+            Console.WriteLine("--- Reiniciando estadísticas ---");
 
+            // Reinicio de todas las variables globales de conteo
+            ContadorTotalEvaluados = 0;
+            ContadorPublicados = 0;
+            ContadorRechazados = 0;
+            ContadorEnRevision = 0;
+            ContadorPublicadosAjustes = 0;
+            ContadorImpactoAlto = 0;
+            ContadorImpactoMedio = 0;
+            ContadorImpactoBajo = 0;
 
+            Console.WriteLine();
+            Console.WriteLine("Las estadísticas de la sesión han sido reiniciadas a 0.");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Presiona cualquier tecla para continuar");
@@ -495,8 +556,13 @@ do
         case 5:
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("---Saliendo del sistema---");
+            Console.WriteLine("--- Resumen final de la sesión ---");
             Console.WriteLine();
+
+            MostrarEstadisticas();
+
+            Console.WriteLine();
+            Console.WriteLine("Saliendo del sistema...");
             break;
 
         default:
