@@ -5,6 +5,7 @@ using System.Xml;
 int opcion = -1;
 string impactoPredominante = "Ninguno";
 double porcentajeAprobacion = 0;
+int totalAprobados = 0;
 
 int TipoContenido = 0;
 int Duracion = 0;
@@ -411,7 +412,7 @@ void MostrarEstadisticas()
 
     if (ContadorTotalEvaluados > 0)
     {
-        int totalAprobados = ContadorPublicados + ContadorPublicadosAjustes + ContadorEnRevision;
+        totalAprobados = ContadorPublicados + ContadorPublicadosAjustes + ContadorEnRevision;
         porcentajeAprobacion = (totalAprobados / ContadorTotalEvaluados) * 100;
     }
 
@@ -541,6 +542,9 @@ do
             ContadorImpactoAlto = 0;
             ContadorImpactoMedio = 0;
             ContadorImpactoBajo = 0;
+            impactoPredominante = "Ninguno";
+            porcentajeAprobacion = 0;
+            totalAprobados = 0;
 
             Console.WriteLine();
             Console.WriteLine("Las estadísticas de la sesión han sido reiniciadas a 0.");
