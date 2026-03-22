@@ -14,6 +14,8 @@ int ContadorTotalEvaluados = 0;
 int ContadorPublicados = 0;
 int ContadorRechazados = 0;
 int ContadorEnRevision = 0;
+int ContadorPublicadosAjustes = 0;
+int ResultadoDescisionFinal; // 1 = Publicar, 2 = Publicar con ajustes, 3 = Enviar a revisión, 4 = Rechazar
 
 int TipoImpacto = 0; // 1 = Impacto Alto, 2 = Impacto Medio, 3 = Impacto Bajo
 string ResultadoClasificacionImpacto;
@@ -23,6 +25,8 @@ int ContadorImpactoBajo = 0;
 
 bool ResultadoValidacionTecnica= false;
 int entrarfuncion = 0;
+
+bool RequiereAjustes = false;
 //----------------------------
 
 void Validacion()
@@ -198,6 +202,9 @@ bool ValidacionTecnica(int a)
     Console.WriteLine();
     Console.WriteLine();
     Console.WriteLine("----Validación técnica----");
+
+    RequiereAjustes = false;
+
     if (Clasificacion==1 || (Clasificacion==2 && (HoraProgramada>=6 || HoraProgramada<=22)) || (Clasificacion==3 && (HoraProgramada>=22 || HoraProgramada<=5)))
     {
         if ((TipoContenido==1 && (Duracion>=60 && Duracion<=180)) || (TipoContenido == 2 && (Duracion >= 20 && Duracion <= 90)) || (TipoContenido == 3 && (Duracion >= 30 && Duracion <= 120)) || (TipoContenido == 4 && (Duracion >= 30 && Duracion <= 240)))
@@ -218,6 +225,7 @@ bool ValidacionTecnica(int a)
             }
             else
             {
+                RequiereAjustes = true;
                 ContadorTotalEvaluados++;
                 ContadorRechazados++;
                 Console.WriteLine();
@@ -229,11 +237,12 @@ bool ValidacionTecnica(int a)
                 Console.WriteLine();
                 Console.ReadKey();
                 Console.Clear();
-                return false;
+                return true;
             }
         }
         else
         {
+            RequiereAjustes = true;
             ContadorTotalEvaluados++;
             ContadorRechazados++;
             Console.WriteLine();
@@ -245,7 +254,7 @@ bool ValidacionTecnica(int a)
             Console.WriteLine();
             Console.ReadKey();
             Console.Clear();
-            return false;
+            return true;
         }
     }
     else
@@ -255,6 +264,14 @@ bool ValidacionTecnica(int a)
         Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine("Validación técnica insatisfactoria");
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("No entra al análisis de impacto");
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Decisión final: Rechazar");
+        Console.WriteLine();
+        Console.WriteLine("Razón: Incumple regla obligatoria de nivel de producción");
         Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine("Presiona cualquier tecla para continuar");
@@ -285,7 +302,7 @@ string ImprimirTipoImpacto(int b)
     }
     else
     {
-        return "No entra en ningun tipo de impacto";
+        return "No entra al análisis de impacto";
     }
 }
 
@@ -320,6 +337,41 @@ string ClasificacionImpacto(bool a)
         return ImprimirTipoImpacto(TipoImpacto);
     }
     return null;
+}
+
+
+int DesicionFinal(int a, bool b)
+{
+    if (b) // Si pasó la validación técnica
+    {
+        if (TipoImpacto == 1)
+        {
+            ContadorEnRevision++;
+            Console.WriteLine("Decisión: Enviar a revisión");
+            Console.WriteLine("Razón: Cumple reglas técnicas, pero tiene impacto Alto.");
+            return 3;
+        }
+        else if (RequiereAjustes)
+        {
+            ContadorPublicadosAjustes++;
+            Console.WriteLine("Decisión: Publicar con ajustes");
+            Console.WriteLine("Razón: Cumple reglas técnicas base, pero requiere modificación menor (horario o duración).");
+            return 2;
+        }
+        else if (TipoImpacto == 2 || TipoImpacto == 3)
+        {
+            ContadorPublicados++;
+            Console.WriteLine("Decisión: Publicar");
+            Console.WriteLine("Razón: Cumple todas las reglas técnicas y su impacto es Bajo o Medio.");
+            return 1;
+        }
+    }
+    else
+    {
+        
+        return 4;
+    }
+    return -1;
 }
 
 
@@ -365,6 +417,8 @@ do
             
             ResultadoClasificacionImpacto= ClasificacionImpacto(ResultadoValidacionTecnica);
             Console.WriteLine(ResultadoClasificacionImpacto);
+
+            ResultadoDescisionFinal = DesicionFinal(TipoImpacto, ResultadoValidacionTecnica);
 
             Console.WriteLine();
             Console.WriteLine();
