@@ -210,7 +210,7 @@ bool ValidacionTecnica(int a)
 
     if ((NivelProduccion == 1 && (Clasificacion == 1 || Clasificacion == 2)) || ((NivelProduccion == 2 || NivelProduccion == 3)))
     {
-        if (Clasificacion == 1 || (Clasificacion == 2 && (HoraProgramada >= 6 || HoraProgramada <= 22)) || (Clasificacion == 3 && (HoraProgramada >= 22 || HoraProgramada <= 5)))
+        if (Clasificacion == 1 || (Clasificacion == 2 && (HoraProgramada >= 6 && HoraProgramada <= 22)) || (Clasificacion == 3 && (HoraProgramada >= 22 || HoraProgramada <= 5)))
         {
             if ((TipoContenido == 1 && (Duracion >= 60 && Duracion <= 180)) || (TipoContenido == 2 && (Duracion >= 20 && Duracion <= 90)) || (TipoContenido == 3 && (Duracion >= 30 && Duracion <= 120)) || (TipoContenido == 4 && (Duracion >= 30 && Duracion <= 240)))
             {
