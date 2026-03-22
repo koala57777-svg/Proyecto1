@@ -533,7 +533,6 @@ do
             Console.WriteLine();
             Console.WriteLine("--- Reiniciando estadísticas ---");
 
-            // Reinicio de todas las variables globales de conteo
             ContadorTotalEvaluados = 0;
             ContadorPublicados = 0;
             ContadorRechazados = 0;
